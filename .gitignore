@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+.env
+logs/
+*.jsonl
+data/*.db
+exports/*.json
+exports/*.iptables
+exports/rules/*.yml
+.pytest_cache/
+.ruff_cache/
+*.mmdb

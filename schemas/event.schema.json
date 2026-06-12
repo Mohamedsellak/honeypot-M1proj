@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ecoleit.local/honeypot/event.schema.json",
+  "title": "HoneypotEvent",
+  "description": "Contrat d'interface entre binomes — evenement unitaire capture par un service honeypot. Version 1.0.0.",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "event_id",
+    "timestamp",
+    "service",
+    "src_ip",
+    "session_id",
+    "action",
+    "integrity"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "event_id": { "type": "string", "description": "UUID v4 unique de l'evenement" },
+    "timestamp": { "type": "string", "format": "date-time", "description": "ISO-8601 UTC" },
+    "service": { "enum": ["ssh", "http", "ftp", "telnet"] },
+    "src_ip": { "type": "string" },
+    "src_port": { "type": ["integer", "null"] },
+    "dst_port": { "type": ["integer", "null"] },
+    "session_id": { "type": "string", "description": "Regroupe les evenements d'une meme session" },
+    "action": {
+      "type": "string",
+      "description": "login_attempt | shell_open | command | request | ftp_cmd | file_download ..."
+    },
+    "username": { "type": ["string", "null"] },
+    "password": { "type": ["string", "null"] },
+    "command": { "type": ["string", "null"] },
+    "http": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "properties": {
+        "method": { "type": "string" },
+        "path": { "type": "string" },
+        "user_agent": { "type": ["string", "null"] },
+        "headers": { "type": "object" },
+        "body": { "type": ["string", "null"] }
+      }
+    },
+    "ftp": { "type": ["object", "null"], "additionalProperties": true },
+    "enrichment": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "description": "Ajoute par l'analyzer apres ingestion (geo, reputation). Hors signature."
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["alg", "hmac"],
+      "additionalProperties": false,
+      "properties": {
+        "alg": { "const": "HMAC-SHA256" },
+        "hmac": { "type": "string" }
+      }
+    }
+  }
+}

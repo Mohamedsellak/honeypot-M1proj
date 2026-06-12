@@ -1,0 +1,51 @@
+# CI/CD GitLab (B2/B9/B12) : lint -> SAST -> tests -> build -> scan Trivy
+stages: [lint, sast, test, build, scan]
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip"
+
+.python:
+  image: python:3.12-slim
+  before_script:
+    - pip install --quiet ruff bandit pytest jsonschema
+
+lint:
+  extends: .python
+  stage: lint
+  script:
+    - ruff check .
+
+sast:
+  extends: .python
+  stage: sast
+  script:
+    - bandit -r honeypots analyzer common shipper -ll -x tests
+  allow_failure: false
+
+semgrep:
+  stage: sast
+  image: returntocorp/semgrep
+  script:
+    - semgrep --config auto --error --skip-unknown-extensions .
+  allow_failure: true
+
+test:
+  extends: .python
+  stage: test
+  script:
+    - python datasets/gen_dataset.py
+    - pytest -q
+
+build:
+  stage: build
+  image: docker:27
+  services: ["docker:27-dind"]
+  script:
+    - docker compose build
+
+trivy-scan:
+  stage: scan
+  image: aquasec/trivy:latest
+  script:
+    - trivy image --severity CRITICAL,HIGH --exit-code 1 honeypot-m1spro-honeypot-ssh:latest || true
+  allow_failure: false

@@ -1,0 +1,10 @@
+root
+admin
+user
+test
+ubuntu
+oracle
+postgres
+ftp
+guest
+deploy

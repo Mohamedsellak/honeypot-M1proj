@@ -1,0 +1,37 @@
+{
+  "_comment": "Seuils chiffres des 4 profils attaquants (B3). Modifiables sans toucher au code.",
+  "version": "1.0.0",
+  "bruteforcer": {
+    "min_login_attempts": 8,
+    "min_attempts_per_minute": 10,
+    "description": "Volume eleve de tentatives d'authentification SSH/FTP sur une session courte."
+  },
+  "bot": {
+    "automated_user_agents": [
+      "curl", "wget", "python-requests", "python-httpx", "go-http-client",
+      "zgrab", "masscan", "nikto", "dirsearch", "nmap", "libwww", "okhttp", "hydra"
+    ],
+    "exploit_paths": [
+      "/.env", "/wp-login.php", "/.git/config", "/phpinfo.php", "/admin",
+      "/api/v1/users", "/actuator", "/solr", "/struts", "/cgi-bin"
+    ],
+    "exploit_payload_markers": ["jndi:", "${", "() {", "/bin/sh", "base64,", "<%"],
+    "min_requests": 3,
+    "description": "UA automatise et/ou requetes vers des chemins d'exploitation connus."
+  },
+  "human": {
+    "min_shell_commands": 2,
+    "min_distinct_commands": 2,
+    "max_commands_per_minute": 30,
+    "description": "Session interactive : commandes shell variees a un rythme humain."
+  },
+  "scanner_legitimate": {
+    "known_scanners": [
+      "censys", "shodan", "greynoise", "stretchoid", "internet-measurement",
+      "shadowserver", "binaryedge", "netsystemsresearch", "paloaltonetworks",
+      "leakix", "onyphe"
+    ],
+    "max_events": 3,
+    "description": "Scanner Internet identifie (Shodan/Censys/GreyNoise...), volume faible, pas de bruteforce."
+  }
+}

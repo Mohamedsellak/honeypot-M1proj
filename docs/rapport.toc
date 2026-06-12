@@ -1,0 +1,38 @@
+\babel@toc {french}{}\relax 
+\contentsline {section}{\numberline {1}Introduction et contexte}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Objectifs du projet}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Perimetre et contraintes}{2}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Cadre theorique et choix de conception}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Taxonomie de Spitzner}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Justification du medium-interaction}{2}{subsection.2.2}%
+\contentsline {section}{\numberline {3}Architecture du systeme}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Choix techniques}{2}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Les services leurres}{2}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Service SSH (port 2222)}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Service HTTP (port 8080)}{3}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Service FTP (port 2121)}{3}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Integrite des preuves}{3}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Pipeline d'analyse et classification}{3}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Contrat de log versionne}{4}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Enrichissement}{4}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Classification comportementale}{4}{subsection.5.3}%
+\contentsline {section}{\numberline {6}Resultats et tableau de bord}{4}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Lecture des resultats}{4}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Interpretation}{5}{subsection.6.2}%
+\contentsline {section}{\numberline {7}Validation par attaques reelles}{5}{section.7}%
+\contentsline {section}{\numberline {8}Audit de detectabilite (furtivite)}{6}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Contre-mesures appliquees}{6}{subsection.8.1}%
+\contentsline {section}{\numberline {9}Securite du honeypot et cadre legal}{7}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Durcissement (anti-pivot)}{7}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Conformite RGPD et article 323-1}{7}{subsection.9.2}%
+\contentsline {section}{\numberline {10}Cartographie MITRE ATT\&CK et exports defensifs}{7}{section.10}%
+\contentsline {section}{\numberline {11}Gestion de projet et repartition du travail}{7}{section.11}%
+\contentsline {section}{\numberline {12}Retour d'experience et perspectives}{7}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Bilan}{7}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}Difficultes rencontrees}{8}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}Perspectives}{8}{subsection.12.3}%
+\contentsline {section}{\numberline {13}Conclusion}{8}{section.13}%
+\contentsline {section}{\numberline {A}Annexes}{8}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Demarrage rapide}{8}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Exemple de regle Sigma generee}{8}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}Structure du depot}{8}{subsection.A.3}%

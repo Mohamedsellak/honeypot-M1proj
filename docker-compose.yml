@@ -1,0 +1,104 @@
+# Honeypot M1SPRO - orchestration complete.
+# Un seul 'docker compose up --build -d' lance toute la stack.
+services:
+  honeypot-ssh:
+    build:
+      context: .
+      dockerfile: honeypots/ssh/Dockerfile
+    container_name: honeypot-ssh
+    read_only: true
+    cap_drop: ["ALL"]
+    cap_add: ["NET_BIND_SERVICE"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs: ["/tmp"]
+    environment:
+      - HP_LOG_HMAC_KEY=${HP_LOG_HMAC_KEY:-ecoleit-m1spro-dev-key}
+    ports: ["2222:2222"]
+    volumes: ["hp-logs:/logs"]
+    networks: ["hpnet"]
+    restart: unless-stopped
+
+  honeypot-http:
+    build:
+      context: .
+      dockerfile: honeypots/http/Dockerfile
+    container_name: honeypot-http
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs: ["/tmp"]
+    environment:
+      - HP_LOG_HMAC_KEY=${HP_LOG_HMAC_KEY:-ecoleit-m1spro-dev-key}
+    ports: ["8080:8080"]
+    volumes: ["hp-logs:/logs"]
+    networks: ["hpnet"]
+    restart: unless-stopped
+
+  honeypot-ftp:
+    build:
+      context: .
+      dockerfile: honeypots/ftp/Dockerfile
+    container_name: honeypot-ftp
+    cap_drop: ["ALL"]
+    cap_add: ["NET_BIND_SERVICE"]
+    security_opt: ["no-new-privileges:true"]
+    environment:
+      - HP_LOG_HMAC_KEY=${HP_LOG_HMAC_KEY:-ecoleit-m1spro-dev-key}
+    ports: ["2121:2121", "60000-60010:60000-60010"]
+    volumes: ["hp-logs:/logs"]
+    networks: ["hpnet"]
+    restart: unless-stopped
+
+  shipper:
+    build:
+      context: .
+      dockerfile: shipper/Dockerfile
+    container_name: honeypot-shipper
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    volumes: ["hp-logs:/logs"]
+    networks: ["hpnet"]
+    depends_on: ["honeypot-ssh", "honeypot-http", "honeypot-ftp"]
+    restart: unless-stopped
+
+  analyzer:
+    build:
+      context: .
+      dockerfile: analyzer/Dockerfile
+    container_name: honeypot-analyzer
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    environment:
+      - HP_LOG_HMAC_KEY=${HP_LOG_HMAC_KEY:-ecoleit-m1spro-dev-key}
+      - HP_ABUSEIPDB_KEY=${HP_ABUSEIPDB_KEY:-}
+      - HP_GEOIP_DB=/data/GeoLite2-City.mmdb
+    ports: ["8000:8000"]
+    volumes: ["hp-logs:/logs", "hp-data:/data"]
+    networks: ["hpnet"]
+    depends_on: ["shipper"]
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    container_name: honeypot-dashboard
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs: ["/tmp"]
+    environment:
+      - HP_API_URL=http://analyzer:8000
+    ports: ["8050:8050"]
+    networks: ["hpnet"]
+    depends_on: ["analyzer"]
+    restart: unless-stopped
+
+volumes:
+  hp-logs:
+  hp-data:
+
+networks:
+  hpnet:
+    driver: bridge

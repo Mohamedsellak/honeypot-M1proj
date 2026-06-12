@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honeypot - M1SPRO - Soutenance</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  :root{
+    --bg:#0b0f17; --panel:#121826; --border:#243044; --text:#e6edf3;
+    --muted:#9aa7b8; --accent:#38bdf8; --green:#22c55e; --red:#ef4444;
+    --amber:#f59e0b; --purple:#a855f7; --blue:#3b82f6;
+  }
+  .reveal{font-family:'Inter',system-ui,sans-serif; color:var(--text); font-size:32px;}
+  /* Tout est centre */
+  .reveal .slides{text-align:center;}
+  .reveal .slides section{text-align:center;}
+  .reveal section{background:transparent;}
+  .reveal h1,.reveal h2,.reveal h3{font-family:'Inter';font-weight:800;color:#fff;letter-spacing:-.5px;text-transform:none;line-height:1.15;}
+  .reveal h1{font-size:1.9em;} .reveal h2{font-size:1.4em;margin-bottom:.5em;} .reveal h3{font-size:1.0em;color:var(--accent);}
+  .reveal p{line-height:1.4;}
+  .big{font-size:3em;line-height:1;margin-bottom:.2em;}
+  .muted{color:var(--muted);} .accent{color:var(--accent);} .green{color:var(--green);}
+  .red{color:var(--red);} .amber{color:var(--amber);} .purple{color:var(--purple);}
+  .small{font-size:.7em;} .tiny{font-size:.55em;}
+  .pill{display:inline-block;padding:5px 16px;border-radius:999px;font-size:.6em;font-weight:700;
+        border:1px solid var(--border);background:var(--panel);color:var(--muted);margin:4px;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px 24px;}
+  .card.b{border-top:4px solid var(--blue);} .card.g{border-top:4px solid var(--green);}
+  .card.a{border-top:4px solid var(--amber);} .card.p{border-top:4px solid var(--purple);}
+  .grid{display:grid;gap:18px;justify-items:stretch;margin:0 auto;}
+  .g2{grid-template-columns:1fr 1fr;} .g3{grid-template-columns:1fr 1fr 1fr;} .g4{grid-template-columns:repeat(4,1fr);}
+  .kpi{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;}
+  .kpi .v{font-size:1.7em;font-weight:800;color:var(--accent);line-height:1;} .kpi .l{font-size:.5em;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:6px;}
+  .flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;font-size:.7em;}
+  .flow .node{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px 16px;font-weight:600;}
+  .flow .arr{color:var(--accent);font-weight:800;font-size:1.3em;}
+  .reveal ul{display:inline-block;text-align:left;margin:0 auto;}
+  .reveal li{margin:.35em 0;}
+  .bar{height:30px;border-radius:8px;background:var(--border);position:relative;overflow:hidden;max-width:680px;margin:6px auto;}
+  .bar>span{position:absolute;left:0;top:0;bottom:0;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;color:#fff;font-weight:800;font-size:.6em;}
+  .footer{position:fixed;bottom:8px;left:0;right:0;text-align:center;font-size:14px;color:var(--muted);z-index:30;}
+  .reveal .progress{color:var(--accent);}
+  .wrap{max-width:1000px;margin:0 auto;}
+</style>
+</head>
+<body>
+<div class="footer">Honeypot &middot; M1SPRO &middot; Ecole IT d'Amiens</div>
+<div class="reveal"><div class="slides">
+
+<!-- 1. TITRE -->
+<section data-background-gradient="radial-gradient(1200px 600px at 50% -10%,rgba(56,189,248,.18),transparent),#0b0f17">
+  <div class="big">&#127855;</div>
+  <h1>Le Honeypot</h1>
+  <h3 style="font-weight:600;">Un piege pour attraper les pirates</h3>
+  <p class="muted small">Un faux serveur qui attire les attaques, puis les analyse.</p>
+  <p style="margin-top:26px;">
+    <span class="pill">M1 Securite</span>
+    <span class="pill">Mohammed Sellak</span>
+    <span class="pill">Rachid Oubenazha</span>
+    <span class="pill">Projet 35h</span>
+  </p>
+  <p class="tiny muted" style="margin-top:22px;">Fleches &#8592; &#8594; pour changer de slide &middot; touche <b>S</b> = mes notes</p>
+  <aside class="notes">
+    Bonjour. Nous sommes Mohammed et Rachid. Nous vous presentons notre projet : un honeypot.
+    Un honeypot, c'est un piege. C'est un faux serveur. On le laisse sur le reseau
+    pour attirer les pirates. Quand un pirate attaque, on enregistre tout ce qu'il fait.
+  </aside>
+</section>
+
+<!-- 2. C'EST QUOI -->
+<section>
+  <h2>C'est quoi un honeypot&nbsp;?</h2>
+  <div class="wrap">
+    <div class="card a" style="font-size:.9em;">
+      Un honeypot, c'est un <b>faux serveur</b>.<br>
+      Il fait semblant d'etre une vraie machine.<br>
+      Les pirates l'attaquent... et on <b>enregistre tout</b>.
+    </div>
+    <p class="small muted" style="margin-top:22px;">
+      Image simple : c'est comme un <b>pot de miel</b>. &#127855;<br>
+      Le miel attire les insectes. Notre faux serveur attire les pirates.
+    </p>
+  </div>
+  <aside class="notes">
+    Le mot honeypot veut dire pot de miel. Le miel attire les insectes.
+    Notre faux serveur attire les pirates. Le pirate croit que c'est une vraie machine.
+    Mais c'est un piege. On regarde tout ce qu'il fait, sans danger.
+  </aside>
+</section>
+
+<!-- 3. POURQUOI -->
+<section>
+  <h2>Pourquoi&nbsp;?</h2>
+  <div class="grid g3 wrap">
+    <div class="card b"><div class="big" style="font-size:1.6em;">&#128065;</div><b>Voir les attaques</b><p class="tiny muted">Comprendre qui attaque et comment.</p></div>
+    <div class="card g"><div class="big" style="font-size:1.6em;">&#128274;</div><b>Sans risque</b><p class="tiny muted">Le vrai serveur n'est jamais touche.</p></div>
+    <div class="card p"><div class="big" style="font-size:1.6em;">&#128221;</div><b>Apprendre</b><p class="tiny muted">On garde les preuves pour se defendre.</p></div>
+  </div>
+  <aside class="notes">
+    Pourquoi faire ca ? Trois raisons simples.
+    Un : pour voir les attaques en vrai et comprendre comment les pirates travaillent.
+    Deux : c'est sans risque, le vrai serveur n'est jamais touche.
+    Trois : on garde les preuves. Ca nous aide a mieux nous defendre apres.
+  </aside>
+</section>
+
+<!-- 4. LES 3 SERVICES -->
+<section>
+  <h2>Mon piege a 3 portes</h2>
+  <div class="grid g3 wrap">
+    <div class="card b"><div class="big" style="font-size:1.4em;">&#128272;</div><b>SSH</b><p class="tiny muted">Connexion a distance. On note les mots de passe essayes.</p></div>
+    <div class="card g"><div class="big" style="font-size:1.4em;">&#127760;</div><b>HTTP</b><p class="tiny muted">Un faux site web. On note les pages que le pirate cherche.</p></div>
+    <div class="card a"><div class="big" style="font-size:1.4em;">&#128193;</div><b>FTP</b><p class="tiny muted">Un faux partage de fichiers avec des appats.</p></div>
+  </div>
+  <p class="small muted" style="margin-top:20px;">3 services = 3 facons differentes d'attirer les pirates.</p>
+  <aside class="notes">
+    Mon piege a trois portes, trois faux services.
+    SSH : c'est la connexion a distance. Je note tous les mots de passe que le pirate essaie.
+    HTTP : c'est un faux site web. Je note les pages qu'il cherche, par exemple des pages sensibles.
+    FTP : c'est un faux partage de fichiers, avec des appats comme un faux fichier secrets point txt.
+    Plus j'ai de portes, plus j'attrape de pirates.
+  </aside>
+</section>
+
+<!-- 5. COMMENT CA MARCHE -->
+<section>
+  <h2>Comment ca marche&nbsp;?</h2>
+  <div class="flow wrap" style="margin-bottom:16px;">
+    <div class="node" style="border-top:3px solid var(--blue);">1. Le piege<br><span class="muted tiny">SSH / HTTP / FTP</span></div>
+    <span class="arr">&#8594;</span>
+    <div class="node" style="border-top:3px solid var(--green);">2. On enregistre<br><span class="muted tiny">chaque action</span></div>
+    <span class="arr">&#8594;</span>
+    <div class="node" style="border-top:3px solid var(--amber);">3. On analyse<br><span class="muted tiny">qui ? d'ou ?</span></div>
+    <span class="arr">&#8594;</span>
+    <div class="node" style="border-top:3px solid var(--accent);">4. On affiche<br><span class="muted tiny">tableau de bord</span></div>
+  </div>
+  <p class="small muted">Tout est automatique, en direct.</p>
+  <aside class="notes">
+    Voici les quatre etapes, c'est simple.
+    Un : le piege recoit l'attaque.
+    Deux : on enregistre chaque action du pirate.
+    Trois : on analyse. On regarde qui c'est et d'ou il vient, grace a son adresse IP.
+    Quatre : on affiche tout sur un tableau de bord, en direct.
+    Tout est automatique.
+  </aside>
+</section>
+
+<!-- 5b. ARCHITECTURE -->
+<section>
+  <h2>L'architecture de notre application</h2>
+  <div class="wrap" style="font-size:.9em;">
+    <div class="flow">
+      <div class="node" style="border-top:3px solid var(--red);">&#128126; Attaquants<br><span class="muted tiny">Hydra, Nikto</span></div>
+      <span class="arr">&#8594;</span>
+      <div class="node" style="border-top:3px solid var(--blue);">&#128272; SSH &middot; &#127760; HTTP &middot; &#128193; FTP<br><span class="muted tiny">les 3 pieges</span></div>
+      <span class="arr">&#8594;</span>
+      <div class="node" style="border-top:3px solid var(--green);">&#128221; Logs signes<br><span class="muted tiny">HMAC</span></div>
+    </div>
+    <div style="text-align:center;color:var(--accent);font-size:1.5em;margin:6px 0;">&#8595;</div>
+    <div class="flow">
+      <div class="node" style="border-top:3px solid var(--purple);">&#129504; Analyse<br><span class="muted tiny">enrichir + classer + stocker</span></div>
+      <span class="arr">&#8594;</span>
+      <div class="node" style="border-top:3px solid var(--accent);">&#128202; Tableau de bord<br><span class="muted tiny">en direct</span></div>
+      <span class="arr">&#8594;</span>
+      <div class="node" style="border-top:3px solid var(--amber);">&#128737; Exports defense<br><span class="muted tiny">Sigma, STIX</span></div>
+    </div>
+  </div>
+  <p class="small muted" style="margin-top:18px;">Tout tourne dans Docker : 6 conteneurs isoles.</p>
+  <aside class="notes">
+    Voici l'architecture de notre application, de gauche a droite.
+    A gauche, les attaquants : on utilise Hydra et Nikto pour jouer le pirate.
+    Ils attaquent nos trois pieges : SSH, HTTP et FTP.
+    Chaque action devient un log signe, pour prouver qu'il n'est pas modifie.
+    Ensuite la partie analyse : on enrichit avec le pays, on classe le type de pirate, et on stocke.
+    Enfin, deux sorties : le tableau de bord en direct, et des fichiers d'export pour se defendre.
+    Tout tourne dans Docker, dans six conteneurs isoles.
+  </aside>
+</section>
+
+<!-- 6. ON RECONNAIT LE PIRATE -->
+<section>
+  <h2>On reconnait le type de pirate</h2>
+  <div class="grid g2 wrap" style="font-size:.8em;">
+    <div class="card"><b class="red">Le bruteforcer</b><p class="tiny muted">Il essaie plein de mots de passe, tres vite.</p></div>
+    <div class="card"><b class="amber">Le bot</b><p class="tiny muted">Un robot automatique qui scanne.</p></div>
+    <div class="card"><b class="purple">L'humain</b><p class="tiny muted">Une vraie personne qui tape des commandes.</p></div>
+    <div class="card"><b class="green">Le scanner connu</b><p class="tiny muted">Un robot legitime (Shodan, Google...).</p></div>
+  </div>
+  <p class="small muted" style="margin-top:18px;">Le programme decide tout seul, avec des regles simples et claires.</p>
+  <aside class="notes">
+    Mon programme reconnait tout seul le type de pirate. Il y a quatre types.
+    Le bruteforcer : il essaie beaucoup de mots de passe tres vite.
+    Le bot : c'est un robot automatique.
+    L'humain : une vraie personne qui tape des commandes a la main.
+    Le scanner connu : un robot legitime, par exemple Shodan.
+    Le programme decide avec des regles simples. Je peux toujours expliquer pourquoi.
+  </aside>
+</section>
+
+<!-- 7. TABLEAU DE BORD -->
+<section>
+  <h2>Le tableau de bord</h2>
+  <img src="img/dashboard.png" alt="Tableau de bord" style="max-width:92%;max-height:440px;border-radius:14px;border:1px solid var(--border);box-shadow:0 12px 44px rgba(0,0,0,.55);">
+  <p class="small muted" style="margin-top:16px;">Une page web qui montre tout en direct : nombre d'attaques, pays, types de pirates.</p>
+  <aside class="notes">
+    Voici le tableau de bord. C'est une page web. Elle montre tout en direct.
+    Le nombre d'attaques, les pays d'origine sur une carte, et les types de pirates.
+    Pendant la demo, vous verrez les chiffres monter en temps reel quand j'attaque le piege.
+  </aside>
+</section>
+
+<!-- 8. TESTS -->
+<section>
+  <h2>Est-ce que ca marche&nbsp;? Oui.</h2>
+  <p class="small muted">J'ai teste avec de vrais outils de pirate (Hydra, Nikto).</p>
+  <div class="grid g4 wrap" style="margin-top:18px;">
+    <div class="kpi"><div class="v">5361</div><div class="l">Attaques captees</div></div>
+    <div class="kpi"><div class="v">3</div><div class="l">Services actifs</div></div>
+    <div class="kpi"><div class="v">0</div><div class="l">Preuve perdue</div></div>
+    <div class="kpi"><div class="v green">5/5</div><div class="l">Tests reussis</div></div>
+  </div>
+  <aside class="notes">
+    Est-ce que ca marche ? Oui. Je l'ai prouve.
+    J'ai attaque mon propre piege avec de vrais outils de pirate : Hydra et Nikto.
+    Resultat : 5361 attaques captees, sur les trois services.
+    Aucune preuve perdue. Et mes cinq tests automatiques passent : cinq sur cinq.
+  </aside>
+</section>
+
+<!-- 9. AUDIT FURTIVITE -->
+<section>
+  <h2>Mon piege est-il credible&nbsp;?</h2>
+  <p class="small muted">Un bon piege ne doit pas se voir. Je l'ai teste avant / apres.</p>
+  <div style="margin-top:22px;">
+    <div class="small" style="text-align:left;max-width:680px;margin:0 auto;">Avant</div>
+    <div class="bar"><span style="width:20%;background:var(--red);">6/30</span></div>
+    <div class="small" style="text-align:left;max-width:680px;margin:14px auto 0;">Apres mes ameliorations</div>
+    <div class="bar"><span style="width:70%;background:var(--green);">21/30</span></div>
+  </div>
+  <p class="small" style="margin-top:18px;"><span class="green"><b>+15 points&nbsp;!</b></span> <span class="muted">Mon faux serveur ressemble bien plus a un vrai.</span></p>
+  <aside class="notes">
+    Un bon piege ne doit pas se voir. Si le pirate voit que c'est un piege, il part.
+    J'ai teste mon piege avant et apres mes ameliorations, avec les memes outils.
+    Avant : 6 sur 30, on voyait tout de suite que c'etait un faux.
+    Apres : 21 sur 30. J'ai change les messages des services pour imiter un vrai serveur Debian.
+    C'est plus 15 points. Il reste deux limites que j'assume, je peux en parler si vous voulez.
+  </aside>
+</section>
+
+<!-- 10. SECURITE & LOI -->
+<section>
+  <h2>Securite et loi</h2>
+  <div class="grid g2 wrap" style="font-size:.82em;">
+    <div class="card b"><b>C'est securise</b><p class="tiny muted">Le piege est enferme dans des conteneurs Docker. Le pirate ne peut pas sortir.</p></div>
+    <div class="card p"><b>C'est legal</b><p class="tiny muted">Je n'attaque personne. Je respecte le RGPD (j'anonymise les adresses).</p></div>
+  </div>
+  <p class="small muted" style="margin-top:18px;">Regle d'or : un honeypot <b>observe</b>, il ne <b>riposte</b> jamais.</p>
+  <aside class="notes">
+    Deux points importants : la securite et la loi.
+    La securite : le piege est enferme dans des conteneurs Docker. Meme si le pirate entre,
+    il ne peut pas sortir vers le vrai reseau.
+    La loi : je n'attaque personne, c'est interdit. Je respecte le RGPD : j'anonymise les adresses IP.
+    La regle d'or : un honeypot observe, il ne riposte jamais.
+  </aside>
+</section>
+
+<!-- DEMO -->
+<section data-background-gradient="radial-gradient(1200px 600px at 50% -10%,rgba(56,189,248,.18),transparent),#0b0f17">
+  <div class="big">&#128187;</div>
+  <h1>Demonstration</h1>
+  <h3 style="font-weight:600;">Le tableau de bord en direct</h3>
+  <aside class="notes">
+    Passons maintenant a la demonstration en direct du tableau de bord.
+    Rachid lance les attaques, et je commente les chiffres qui montent en temps reel.
+  </aside>
+</section>
+
+<!-- 11. CONCLUSION -->
+<section>
+  <h2>Pour conclure</h2>
+  <div class="wrap">
+    <ul class="small">
+      <li>&#9989; Un piege a <b>3 services</b> qui attrape les pirates.</li>
+      <li>&#9989; Une analyse <b>automatique</b> : qui, d'ou, quel type.</li>
+      <li>&#9989; Teste et prouve : <b>5/5</b>, plus de 5000 attaques.</li>
+      <li>&#9989; <b>Securise</b> et <b>legal</b>.</li>
+    </ul>
+    <div class="card a" style="margin-top:20px;">
+      <b>Plus tard :</b> rendre le piege encore plus credible et envoyer les alertes a une equipe de securite.
+    </div>
+  </div>
+  <aside class="notes">
+    Pour conclure. J'ai fait un piege a trois services qui attrape les pirates.
+    Une analyse automatique qui dit qui attaque, d'ou, et quel type de pirate.
+    Tout est teste et prouve : cinq sur cinq, plus de cinq mille attaques.
+    Et c'est securise et legal.
+    Plus tard, je voudrais rendre le piege encore plus credible et envoyer des alertes a une equipe de securite.
+  </aside>
+</section>
+
+<!-- 12. MERCI -->
+<section data-background-gradient="radial-gradient(1200px 600px at 50% -10%,rgba(56,189,248,.18),transparent),#0b0f17">
+  <div class="big">&#128272;&#127760;&#128193;</div>
+  <h1>Merci&nbsp;!</h1>
+  <h3 style="font-weight:600;">Avez-vous des questions&nbsp;?</h3>
+  <p class="muted small">Mohammed Sellak &amp; Rachid Oubenazha &middot; M1SPRO &middot; Ecole IT d'Amiens</p>
+  <aside class="notes">
+    Merci beaucoup pour votre attention. Je suis pret a repondre a vos questions.
+  </aside>
+</section>
+
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash:true, slideNumber:'c/t', transition:'slide', backgroundTransition:'fade',
+    controls:true, progress:true, center:true, width:1280, height:720, margin:0.08,
+    plugins:[RevealHighlight, RevealNotes]
+  });
+</script>
+</body>
+</html>
